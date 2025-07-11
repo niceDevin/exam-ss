@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>成绩等级判断</title>
+    <script>
+        window.onload = function() {
+            document.body.style.backgroundColor = "lightblue";
+            document.getElementById("cj").style.color = "green"; // 设置初始文本颜色为黑色
+            document.getElementById("cj").style.fontSize = "70px";
+        }
+        function tj() {
+            let g = Number(document.getElementById("nu").value); // 先转成数字
+            let gs = document.getElementById("nu").value;
+            let zs = Number.isInteger(g);
+            document.getElementById("cj").style.color = "red"; // 设置成绩等级文本颜色为红色
+            // 判断分数等级
+            if (g > 100 || g < 0) {
+                console.log("输入错误");
+                alert("输入错误，请输入0-100的分数");
+                document.getElementById("cj").textContent = "成绩等级：";
+                document.getElementById("cj").style.color = "green"; // 恢复文本颜色为绿色
+            } else if (zs == false) {
+                console.log("输入错误");
+                alert("输入错误，请输入0-100的整数");
+                document.getElementById("cj").textContent = "成绩等级：";
+                document.getElementById("cj").style.color = "green"; // 恢复文本颜色为绿色
+            } else if (gs === null || gs === undefined || gs === "" || gs === " ") {
+                console.log("输入错误");
+                alert("输入错误，请输入0-100的整数分数(不能空)");
+                document.getElementById("cj").textContent = "成绩等级：";
+                document.getElementById("cj").style.color = "green"; // 恢复文本颜色为绿色
+            } else if (g == 100) {
+                console.log("满分");
+                document.getElementById("cj").textContent = "你的成绩是满分";
+                document.getElementById("manfen").textContent = "恭喜你，满分！哇！你真棒！";
+                document.getElementById("manfen").style.color = "blue"; // 设置满分文本颜色为粉色
+                document.getElementById("manfen").style.fontSize = "60px"; 
+                // 等3秒后执行
+                setTimeout(function() {
+                    document.getElementById("manfen").innerHTML = '恭喜你!!!!!!!!!!';
+                }, 3000); // 3000毫秒 = 3秒
+                setTimeout(function() {
+                    document.getElementById("manfen").textContent = "";
+                }, 3000); 
+            } else if (g >= 95) {
+                console.log("A+");
+                document.getElementById("cj").textContent = "你的成绩是A+(优)";
+            } else if (g >= 90) {
+                console.log("A");
+                document.getElementById("cj").textContent = "你的成绩是A(优)";
+            } else if (g >= 80) {
+                console.log("B");
+                document.getElementById("cj").textContent = "你的成绩是B(优)";
+            } else if (g >= 70) {
+                console.log("C");
+                document.getElementById("cj").textContent = "你的成绩是C(良)";
+            } else if (g >= 60) {
+                console.log("D");
+                document.getElementById("cj").textContent = "你的成绩是D(及格)";
+            } else {
+                console.log("E");
+                document.getElementById("cj").textContent = "你的成绩是E(不及格)";
+            }
+        }
+    </script>
+</head>
+<body>
+    <input type="text" id="nu" placeholder="请输入分数" style="width: 300px; height: 80px; font-size: 50px;">
+    <button onclick="tj()" style="height: 80px; font-size: 50px; color: blue;">提交</button>
+    <h1 id="cj">成绩等级：</h1>
+    <p id="manfen"></p>
+    <div style="position: fixed; right: 0; bottom: 0; padding: 10px;color:gray">
+        本网页由nicedevin github制作，未经许可，不得转载
+      </div>
+</body>
+</html>
