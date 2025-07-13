@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>成绩等级判断</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: lightblue;
+            padding: 20px;
+            margin: 0;
+            overflow-x: hidden;
+        }
+        form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        #nu {
+            width: 300px;
+            height: 80px;
+            font-size: 50px;
+            padding: 0 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        #nu:focus {
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+        }
+        button {
+            height: 80px;
+            font-size: 50px;
+            background: linear-gradient(to right, #1a2980, #26d0ce);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        #cj {
+            font-size: 70px;
+            color: green;
+            margin-top: 20px;
+        }
+        #manfen {
+            font-size: 60px;
+            color: blue;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+        .footer {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            padding: 10px;
+            color: gray;
+        }
+        /* 彩带样式 */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            opacity: 0;
+            animation: confetti-fall 3s ease-in-out forwards;
+            z-index: 1000;
+        }
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <form onsubmit="event.preventDefault(); tj();">
+        <input type="text" id="nu" placeholder="请输入分数">
+        <button type="button" onclick="tj()">提交</button>
+    </form>
+    <h1 id="cj">成绩等级：</h1>
+    <p id="manfen"></p>
+    <div class="footer">
+        本网页由nicedevin github制作，未经许可，不得转载
+    </div>
+
+    <script>
+        window.onload = function() {
+            document.getElementById("cj").style.color = "green";
+            document.getElementById("cj").style.fontSize = "70px";
+        }
+
+        function tj() {
+            let gs = document.getElementById("nu").value.trim();
+            let g = Number(gs);
+            let zs = Number.isInteger(g);
+            document.getElementById("cj").style.color = "red";
+
+            // 输入验证
+            if (!gs) {
+                alert("输入错误，请输入0-100的整数分数（不能为空）");
+                resetCj();
+            } else if (isNaN(g) || !zs) {
+                alert("输入错误，请输入0-100的整数");
+                resetCj();
+            } else if (g > 100 || g < 0) {
+                alert("输入错误，请输入0-100的分数");
+                resetCj();
+            } else if (g === 100) {
+                console.log("满分");
+                document.getElementById("cj").textContent = "你的成绩是满分";
+                showManfen();
+                createConfetti(); // 100分时创建彩带特效
+            } else if (g >= 95) {
+                console.log("A+");
+                document.getElementById("cj").textContent = "你的成绩是A+(优)";
+            } else if (g >= 90) {
+                console.log("A");
+                document.getElementById("cj").textContent = "你的成绩是A(优)";
+            } else if (g >= 80) {
+                console.log("B");
+                document.getElementById("cj").textContent = "你的成绩是B(优)";
+            } else if (g >= 70) {
+                console.log("C");
+                document.getElementById("cj").textContent = "你的成绩是C(良)";
+            } else if (g >= 60) {
+                console.log("D");
+                document.getElementById("cj").textContent = "你的成绩是D(及格)";
+            } else {
+                console.log("E");
+                document.getElementById("cj").textContent = "你的成绩是E(不及格)";
+            }
+
+            document.getElementById("nu").value = "";
+        }
+
+        function resetCj() {
+            document.getElementById("cj").textContent = "成绩等级：";
+            document.getElementById("cj").style.color = "green";
+        }
+
+        function showManfen() {
+            const manfenEl = document.getElementById("manfen");
+            manfenEl.textContent = "恭喜你，满分！哇！你真棒！";
+            manfenEl.style.color = "blue";
+            manfenEl.style.fontSize = "60px";
+
+            setTimeout(() => {
+                manfenEl.textContent = "恭喜你!!!!!!!!!!";
+            }, 3000);
+
+            setTimeout(() => {
+                manfenEl.textContent = "";
+            }, 6000);
+        }
+
+        // 创建彩带特效
+        function createConfetti() {
+            const colors = ['#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff'];
+            
+            for (let i = 0; i < 150; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = Math.random() * 10 + 5 + 'px';
+                
+                document.body.appendChild(confetti);
+                
+                // 移除彩带元素避免内存泄漏
+                setTimeout(() => {
+                    confetti.remove();
+                }, 3000);
+            }
+        }
+    </script>
+</body>
+</html>
